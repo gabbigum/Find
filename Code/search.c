@@ -5,17 +5,27 @@
 //this method searches for a string in string and prints it
 //Find string while knowing part of it and return string
 
-void search_string(char *user_string, char *str)
-{
-	int counter = 0;
 
+//we might want for the method to return string 
+
+void search_string(char *user_string, char *str)
+{	
 	while(str != NULL)
 	{
-		printf("%s\n",strstr(str, user_string));
-		counter++;
+		if(strcmp(user_string, str) > strlen(user_string))
+		{
+			printf("something");
+			break;
+		}
 	}
 
+	//doesn't work as intended       v
 	/*
+	if(strstr(str, user_string) != NULL)
+	{	
+		printf("%s\n", strstr(str, user_string));
+	}
+
 	int len = strlen(str);
 	for(int i = 0; i < len; i++)
 	{
