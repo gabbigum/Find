@@ -7,7 +7,7 @@ void searchfile(char *str, char *file_name)
 {
 	FILE *file;
 	char buffer[BUFFER_SIZE];
-	
+
 	file = fopen(file_name, "r");
 
 	//reading every line of the file with fgets
@@ -24,6 +24,6 @@ void searchfile(char *str, char *file_name)
 		{
 			printf("%s", new_word);
 		}
-
 	}
+	fclose(file);
 }
