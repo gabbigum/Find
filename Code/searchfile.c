@@ -1,22 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "searchfile.c"
+#include "searchfile.h"
 #define BUFFER_SIZE 1000
 
-int main(int argc, char ** argv)
+void searchfile(char *str, char *file_name)
 {
-	//FILE *file;
-	
+	FILE *file;
 	char buffer[BUFFER_SIZE];
-	char *str = argv[1];
-	//if argv[2] == "-i" -> store file name
-	char *file_name = argv[2];
-
-	searchfile(str, file_name);
-
-
-/*
+	
 	file = fopen(file_name, "r");
 
 	//reading every line of the file with fgets
@@ -35,7 +26,4 @@ int main(int argc, char ** argv)
 		}
 
 	}
-	*/
-	return 0;
 }
-

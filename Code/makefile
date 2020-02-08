@@ -1,10 +1,10 @@
 all: compilelib library main link
 
 compilelib:
-	cl /c search.c
+	cl /c searchfile.c
 
 library:
-	lib /OUT:coursework.lib search.obj
+	lib /OUT:coursework.lib searchfile.obj
 
 main:
 	cl /c find.c
