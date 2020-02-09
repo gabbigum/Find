@@ -11,8 +11,11 @@ int main(int argc, char ** argv)
 	//if argv[2] == "-i" -> store file name
 	char *file_name = argv[2];
 
-	searchfile(str, file_name);
-
+	search_file_sentance(str, file_name);
+	/*
+	printf("searching words method:\n");
+	search_file(str, file_name);
+*/
 	return 0;
 }
 
