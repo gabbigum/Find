@@ -4,70 +4,151 @@
 #include "searchfile.h"
 #define BUFFER_SIZE 1000
 
+
 void search_file(char *str, char *file_name)
 {
 	FILE *file;
 	char buffer[BUFFER_SIZE];
 
+	//open the file
 	file = fopen(file_name, "r");
 
-	//reading every line of the file with fgets
+	//read every line from the file until it reaches the end
 	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
 	{
-		//storing every word in a variable
-		char *new_word = buffer;
-		//getting length of the variable
-		int len = strlen(new_word);
-
-		//checking if the substring of our first argument
-		//exists in the new_word variable that we created
-		if(strstr(new_word, str) != NULL)
-		{
-			printf("%s", new_word);
-		}
-	}
-	fclose(file);
-}
-
-void search_file_sentance(char *str, char *file_name)
-{
-	FILE *file;
-	char buffer[BUFFER_SIZE];
-
-	file = fopen(file_name, "r");
-
-	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
-	{
+		//array to store the new word
 		char *new_word;
-
+		//tokenizing every string on the line
 		new_word = strtok(buffer, " ,.-!?");
-
+		//comparing every token until it reaches end of line
 		while(new_word != NULL)
 		{
+			//if new_word contains substring of str we print it
+			//to the console
 			if(strstr(new_word, str) != NULL)
 			{
 				printf("%s\n", new_word);
 			}	
 
 			new_word = strtok(NULL, " ,.-!?");
-			//compare each word and move onto the next line
+			
 		}
 	}
+	//closing file
 	fclose(file);
 }
 
-/*char* string_tokenize(char *str)
+void search_file_ignore_case(char *str, char *file_name)
 {
-	char *pch;
-	printf("Splitting %s into tokens\n", str);
-
-	pch = strtok (str," ");
+	FILE *file;
+	char buffer[BUFFER_SIZE];
 	
-	while (pch != NULL)
+	//open the file
+	file = fopen(file_name, "r");
+
+	//read every line from the file until it reaches the end
+	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
 	{
-		printf ("%s ",pch);
-	    pch = strtok (NULL, " ,.-");
+		//array to store the new word
+		char *new_word;
+		//tokenizing every string on the line
+		new_word = strtok(buffer, " ,.-!?");
+		//comparing every token until it reaches end of line
+		while(new_word != NULL)
+		{
+			//if new_word contains substring of str we print it
+			//to the console
+			if(strstr(new_word, str) != NULL)
+			{
+				printf("%s\n", new_word);
+			}	
+
+			new_word = strtok(NULL, " ,.-!?");
+			
+		}
 	}
-	return pch;
+	//closing file
+	fclose(file);
 }
-*/
+
+void replace_str_single_word(char *str_replace, char*file_name)
+{
+	FILE *file;
+	FILE *write_file;
+	char buffer[BUFFER_SIZE];
+
+	//output.txt
+	file = fopen(file_name, "r");
+	write_file = fopen("output.txt","w");
+
+	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
+	{
+		char *new_word = buffer;
+		
+		
+		if(strstr(new_word, str_replace) != NULL)
+		{	
+			printf("%s", new_word);
+			fprintf(write_file, "%s\n", new_word);
+		}
+		fprintf(write_file, "%s\n", new_word);
+
+		
+	}
+	fclose(file);
+	fclose(write_file);
+
+}
+/*
+char* replace_word(char *str, char* str_replace)
+{
+	int len = strlen(str);
+	char replaced[len];
+	int replace_counter = 0;
+
+	for(int i = 0; i < len; i++)
+	{
+		if(strcmp(str[i],str_replace[replace_counter]) == 0)
+		{
+			replaced[i] = str_replace[replace_counter];
+			replace_counter++;
+		}
+		else
+		{
+			replaced[i] = str[i];
+		}
+	}
+
+	return replaced;
+}*/
+void search_file_and_replace(char *str, char *str_replace, char *file_name)
+{
+	FILE *file;
+	FILE *write_file;
+	char buffer[BUFFER_SIZE];
+
+	//output.txt
+	file = fopen(file_name, "r");
+	write_file = fopen("output.txt","w");
+
+	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
+	{
+		char *new_word;
+		
+		new_word = strtok(buffer, " ,.-!?");
+
+		while(new_word != NULL)
+		{
+			if(strstr(new_word, str) != NULL)
+			{	
+				printf("%s", new_word);
+				fprintf(write_file, "%s\n", new_word);
+			}	
+
+			new_word = strtok(NULL, " ,.-!?");
+				//compare each word and move onto the next line
+		}
+	}
+	fclose(file);
+	fclose(write_file);
+}
