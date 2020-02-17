@@ -88,10 +88,14 @@ void replace_str_single_word(char *str_replace, char*file_name)
 		
 		if(strstr(new_word, str_replace) != NULL)
 		{	
+			new_word = replace_word(new_word, str_replace);
 			printf("%s", new_word);
 			fprintf(write_file, "%s\n", new_word);
 		}
-		fprintf(write_file, "%s\n", new_word);
+		else
+		{
+			fprintf(write_file, "%s\n", new_word);
+		}
 
 		
 	}
@@ -99,15 +103,16 @@ void replace_str_single_word(char *str_replace, char*file_name)
 	fclose(write_file);
 
 }
-/*
+
 char* replace_word(char *str, char* str_replace)
 {
 	int len = strlen(str);
-	char replaced[len];
+	char replaced[50];
 	int replace_counter = 0;
 
 	for(int i = 0; i < len; i++)
 	{
+		//!!!! maybe raplace from the starting point of str str !!!!!
 		if(strcmp(str[i],str_replace[replace_counter]) == 0)
 		{
 			replaced[i] = str_replace[replace_counter];
@@ -118,9 +123,10 @@ char* replace_word(char *str, char* str_replace)
 			replaced[i] = str[i];
 		}
 	}
+	replaced[len + 1] = '\0';
 
 	return replaced;
-}*/
+}
 void search_file_and_replace(char *str, char *str_replace, char *file_name)
 {
 	FILE *file;
