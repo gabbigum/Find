@@ -25,7 +25,7 @@ int main(int argc, char ** argv)
 		}
 		if(strcmp(argv[i],"-r") == 0)
 		{
-			printf("replace");
+			replace = argv[i+1];
 		}
 		
 
@@ -36,7 +36,8 @@ int main(int argc, char ** argv)
 	//file_name = argv[2];
 	
 	//if argv[2] == "-i" -> store file name
-
+	replace_str_single_word(replace, file_name); // test this
+	
 	search_file(str, file_name);
 	//search_file_and_replace(str, replace ,file_name);
 	return 0;
