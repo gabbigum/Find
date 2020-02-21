@@ -27,18 +27,36 @@ int main(int argc, char ** argv)
 		{
 			replace = argv[i+1];
 		}
+		if(strcmp(argv[i],"-c") == 0)
+		{
+
+		}
 		
 
 	}
 
-	//if arg -c == true or smth use strcasecmp 
+	/*
+	for(int i = 0; i < argc; i++)
+	{
+		
+		if(strcmp(argv[i],"-r") == 0)
+		{
+			replace_str_single_word(replace, file_name);	
+		}
+		if(strcmp(argv[i],"-c") == 0)
+		{
+			search_file_ignore_case(str, file_name);
+		}
 
-	//file_name = argv[2];
+		
+	}
+	*/
+	//replace_str_single_word(replace, file_name); // test this
 	
-	//if argv[2] == "-i" -> store file name
-	replace_str_single_word(replace, file_name); // test this
-	
-	search_file(str, file_name);
+	search_file_ignore_case(str, file_name);
+
+	//search_file(str, file_name);
+
 	//search_file_and_replace(str, replace ,file_name);
 	return 0;
 }
