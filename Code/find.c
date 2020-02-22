@@ -27,37 +27,24 @@ int main(int argc, char ** argv)
 		{
 			replace = argv[i+1];
 		}
-		if(strcmp(argv[i],"-c") == 0)
-		{
-
-		}
-		
-
 	}
-
-	/*
+	
 	for(int i = 0; i < argc; i++)
 	{
-		
 		if(strcmp(argv[i],"-r") == 0)
 		{
-			replace_str_single_word(replace, file_name);	
+			replace_str_single_word(replace, file_name); // test this
+			return 0;
 		}
-		if(strcmp(argv[i],"-c") == 0)
+		else if(strcmp(argv[i],"-c") == 0)
 		{
 			search_file_ignore_case(str, file_name);
+			return 0;
 		}
-
-		
 	}
-	*/
-	//replace_str_single_word(replace, file_name); // test this
-	
-	search_file_ignore_case(str, file_name);
 
-	//search_file(str, file_name);
+	search_file(str, file_name);
 
-	//search_file_and_replace(str, replace ,file_name);
 	return 0;
 }
 

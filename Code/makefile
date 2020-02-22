@@ -8,8 +8,8 @@ compilelib:searchfile.c searchfile.h
 main.o:find.c
 	$(CC) -c find.c
 link:
-	$(CC) -o output find.c searchfile.c
+	$(CC) -o find find.c searchfile.c
 
 clean:
 	rm *.o
-	rm output.txt
+	rm find

@@ -59,12 +59,11 @@ void search_file_ignore_case(char *str, char *file_name)
 		//comparing every token until it reaches end of line
 		while(new_word != NULL)
 		{
-			//if new_word contains substring of str we print it
-			//to the console
-			
+
 			//comparing the word without replacing the new_word string
 			caseless_str = strlwr(str);
-			caseless_word = strlwr(new_word);
+			strcpy(caseless_word, new_word);
+			strlwr(caseless_word);
 			//problem might be working with references
 			if(strstr(caseless_word, caseless_str) != NULL)
 			{
@@ -72,11 +71,9 @@ void search_file_ignore_case(char *str, char *file_name)
 				printf("%s\n", new_word);
 			}	
 
+			
+		
 			new_word = strtok(NULL, " ,.-!?");
-			
-			caseless_str = NULL;
-			caseless_word = NULL;
-			
 		}
 	}
 	//closing file
@@ -181,4 +178,17 @@ void search_file_and_replace(char *str, char *str_replace, char *file_name)
 	}
 	fclose(file);
 	fclose(write_file);
+}
+
+
+char *strlwr(char *str)
+{
+  unsigned char *p = (unsigned char *)str;
+
+  while (*p) {
+     *p = tolower((unsigned char)*p);
+      p++;
+  }
+
+  return str;
 }
