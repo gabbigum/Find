@@ -1,18 +1,15 @@
-all: compilelib library main link
+CC=gcc
 
-compilelib:
-	cl /c searchfile.c
+all: compilelib main.o link
 
-library:
-	lib /OUT:coursework.lib searchfile.obj
+compilelib:searchfile.c searchfile.h
+	$(CC) -c searchfile.c
 
-main:
-	cl /c find.c
-
+main.o:find.c
+	$(CC) -c find.c
 link:
-	link find.obj coursework.lib
+	$(CC) -o output find.c searchfile.c
 
 clean:
-	del *.exe
-	del *.obj
-	del *.lib
+	rm *.o
+	rm output.txt
