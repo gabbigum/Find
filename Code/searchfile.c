@@ -182,3 +182,16 @@ void search_file_and_replace(char *str, char *str_replace, char *file_name)
 	fclose(file);
 	fclose(write_file);
 }
+
+
+char *strlwr(char *str)
+{
+  unsigned char *p = (unsigned char *)str;
+
+  while (*p) {
+     *p = tolower((unsigned char)*p);
+      p++;
+  }
+
+  return str;
+}
