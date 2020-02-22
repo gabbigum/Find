@@ -72,7 +72,6 @@ void search_file_ignore_case(char *str, char *file_name)
 			}	
 
 			
-		
 			new_word = strtok(NULL, " ,.-!?");
 		}
 	}
@@ -100,10 +99,16 @@ void replace_str_single_word(char *str_replace, char*file_name)
 		{	
 			//maybe this line need a fix make sure it replaces the word
 			//correctly
-			new_word = replace_word(new_word, str_replace);
+			char* safe_copy;
 
-			printf("%s\n", new_word);
-			fprintf(write_file, "%s", new_word);
+			safe_copy = replaceWord(buffer, new_word, str_replace);
+
+			printf("%s\n", safe_copy);
+			fprintf(write_file, "%s", safe_copy);
+			
+
+			free(safe_copy);
+			safe_copy = 0;
 		}
 		else
 		{
@@ -111,9 +116,7 @@ void replace_str_single_word(char *str_replace, char*file_name)
 		}
 
 		
-		free(new_word);
 
-		new_word = 0;
 	}
 	fclose(file);
 	fclose(write_file);
@@ -180,7 +183,8 @@ void search_file_and_replace(char *str, char *str_replace, char *file_name)
 	fclose(write_file);
 }
 
-
+//https://stackoverflow.com/questions/23618316/undefined-reference-to-strlwr
+//source of the strlwr function
 char *strlwr(char *str)
 {
   unsigned char *p = (unsigned char *)str;
@@ -191,4 +195,47 @@ char *strlwr(char *str)
   }
 
   return str;
+}
+
+//geekfor geeks
+char *replaceWord(const char *s, const char *oldW, 
+                                 const char *newW) 
+{ 
+    char *result; 
+    int i, cnt = 0; 
+    int newWlen = strlen(newW); 
+    int oldWlen = strlen(oldW); 
+  
+    // Counting the number of times old word 
+    // occur in the string 
+    for (i = 0; s[i] != '\0'; i++) 
+    { 
+        if (strstr(&s[i], oldW) == &s[i]) 
+        { 
+            cnt++; 
+  
+            // Jumping to index after the old word. 
+            i += oldWlen - 1; 
+        } 
+    } 
+  
+    // Making new string of enough length 
+    result = (char *)malloc(i + cnt * (newWlen - oldWlen) + 1); 
+  
+    i = 0; 
+    while (*s) 
+    { 
+        // compare the substring with the result 
+        if (strstr(s, oldW) == s) 
+        { 
+            strcpy(&result[i], newW); 
+            i += newWlen; 
+            s += oldWlen; 
+        } 
+        else
+            result[i++] = *s++; 
+    } 
+  
+    result[i] = '\0'; 
+    return result; 
 }

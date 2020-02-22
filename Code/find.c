@@ -44,7 +44,6 @@ int main(int argc, char ** argv)
 	}
 
 	search_file(str, file_name);
-
 	return 0;
 }
 
