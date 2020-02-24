@@ -8,6 +8,7 @@ It's main functions are to search for a substrings with option for case insensit
 Use the makefile located in the program folder to build and run the program.
 
 GCC compiler is used for compiling and linking the program.
+
 1.Open terminal window in the program directory
 
 2.Use command "make all" to build. The program will output
