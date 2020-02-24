@@ -12,6 +12,7 @@ int main(int argc, char ** argv)
 	char *replace;
 	// do it in loop argc is the find arg
 	//if argv-1 == "-i" setfile name
+
 	for(int i = 0; i < argc; i++)
 	{
 		if(i == 1)
@@ -33,7 +34,7 @@ int main(int argc, char ** argv)
 	{
 		if(strcmp(argv[i],"-r") == 0)
 		{
-			replace_str_single_word(str, replace); // test this
+			replace_str_single_word(replace, file_name); // test this
 			return 0;
 		}
 		else if(strcmp(argv[i],"-c") == 0)
