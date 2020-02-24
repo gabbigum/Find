@@ -20,7 +20,7 @@ void search_file(char *str, char *file_name)
 		//array to store the new word
 		char *new_word;
 		//tokenizing every string on the line
-		new_word = strtok(buffer, " ,.-!?");
+		new_word = strtok(buffer, " ,.-!?\n");
 		//comparing every token until it reaches end of line
 		while(new_word != NULL)
 		{
@@ -31,7 +31,7 @@ void search_file(char *str, char *file_name)
 				printf("%s\n", new_word);
 			}	
 
-			new_word = strtok(NULL, " ,.-!?");
+			new_word = strtok(NULL, " ,.-!?\n");
 			
 		}
 	}
@@ -55,7 +55,7 @@ void search_file_ignore_case(char *str, char *file_name)
 		char *caseless_word;
 		char *caseless_str;
 		//tokenizing every string on the line
-		new_word = strtok(buffer, " ,.-!?");
+		new_word = strtok(buffer, " ,.-!?\n");
 		//comparing every token until it reaches end of line
 		while(new_word != NULL)
 		{
@@ -72,8 +72,7 @@ void search_file_ignore_case(char *str, char *file_name)
 			}	
 
 			
-		
-			new_word = strtok(NULL, " ,.-!?");
+			new_word = strtok(NULL, " ,.-!?\n");
 		}
 	}
 	//closing file
@@ -100,10 +99,17 @@ void replace_str_single_word(char *str_replace, char*file_name)
 		{	
 			//maybe this line need a fix make sure it replaces the word
 			//correctly
-			new_word = replace_word(new_word, str_replace);
+			char* safe_copy;
+
+			safe_copy = replace_word(new_word, str_replace);
 
 			printf("%s\n", new_word);
-			fprintf(write_file, "%s", new_word);
+			printf("%s\n", safe_copy);
+			fprintf(write_file, "%s", safe_copy);
+			
+
+			free(safe_copy);
+			safe_copy = 0;
 		}
 		else
 		{
@@ -111,16 +117,14 @@ void replace_str_single_word(char *str_replace, char*file_name)
 		}
 
 		
-		free(new_word);
 
-		new_word = 0;
 	}
 	fclose(file);
 	fclose(write_file);
 
 }
 
-char* replace_word(char *str, char* str_replace)
+char* replace_word(char *str, char *str_replace)
 {
 	//try it with void return type because stack is faster
 	int len = strlen(str);
@@ -148,47 +152,61 @@ char* replace_word(char *str, char* str_replace)
 
 	return replaced;
 }
-void search_file_and_replace(char *str, char *str_replace, char *file_name)
-{
-	FILE *file;
-	FILE *write_file;
-	char buffer[BUFFER_SIZE];
 
-	//output.txt
-	file = fopen(file_name, "r");
-	write_file = fopen("output.txt","w");
-
-	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
-	{
-		char *new_word;
-		
-		new_word = strtok(buffer, " ,.-!?");
-
-		while(new_word != NULL)
-		{
-			if(strstr(new_word, str) != NULL)
-			{	
-				printf("%s", new_word);
-				fprintf(write_file, "%s\n", new_word);
-			}	
-
-			new_word = strtok(NULL, " ,.-!?");
-				//compare each word and move onto the next line
-		}
-	}
-	fclose(file);
-	fclose(write_file);
-}
-
-
+//https://stackoverflow.com/questions/23618316/undefined-reference-to-strlwr
+//source of the strlwr function
 char *strlwr(char *str)
 {
-  unsigned char *p = (unsigned char *)str;
+	  unsigned char *p = (unsigned char *)str;
 
-  while (*p) {
-     *p = tolower((unsigned char)*p);
-      p++;
-  }
+	  while (*p) 
+	  {
+	     *p = tolower((unsigned char)*p);
+	      p++;
+	  }
 
-  return str;
+	  return str;
+}
+
+//geekfor geeks
+char *replaceWord(const char *s, const char *oldW, 
+                                 const char *newW) 
+{ 
+    char *result; 
+    int i, cnt = 0; 
+    int newWlen = strlen(newW); 
+    int oldWlen = strlen(oldW); 
+  
+    // Counting the number of times old word 
+    // occur in the string 
+    for (i = 0; s[i] != '\0'; i++) 
+    { 
+        if (strstr(&s[i], oldW) == &s[i]) 
+        { 
+            cnt++; 
+  
+            // Jumping to index after the old word. 
+            i += oldWlen - 1; 
+        } 
+    } 
+  
+    // Making new string of enough length 
+    result = (char *)malloc(i + cnt * (newWlen - oldWlen) + 1); 
+  
+    i = 0; 
+    while (*s) 
+    { 
+        // compare the substring with the result 
+        if (strstr(s, oldW) == s) 
+        { 
+            strcpy(&result[i], newW); 
+            i += newWlen; 
+            s += oldWlen; 
+        } 
+        else
+            result[i++] = *s++; 
+    } 
+  
+    result[i] = '\0'; 
+    return result; 
 }
