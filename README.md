@@ -17,13 +17,14 @@ an object file named "find"
 3.To run the program write "./find <args>"
 
 ## Arguments that the program takes
-Note: 1.The first argument is always of type string (the string we are searching for in the text file)
 
-		  2.The order of passed arguments does NOT matter after the first argument
+	Note: 1.The first argument is always of type string (the string we are searching for in the text file)
+
+	2.The order of passed arguments does NOT matter after the first argument
 		  list of arguments:
 		  	i <file_name> - input the file name
 		  	-r <string>   - replace all substring occurances 
-		  	-c 			  - case insensitive search  
+		  	-c 	      - case insensitive search  
 
 		  3. Example
 		  		./find Hello -i sentences_test.txt -c
