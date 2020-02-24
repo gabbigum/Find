@@ -22,7 +22,7 @@ an object file named "find"
 
 	2.The order of passed arguments does NOT matter after the first argument
 		  list of arguments:
-		  	i <file_name> - input the file name
+		  	-i <file_name> - input the file name
 		  	-r <string>   - replace all substring occurances 
 		  	-c 	      - case insensitive search  
 
