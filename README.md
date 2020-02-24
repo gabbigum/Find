@@ -14,7 +14,7 @@ GCC compiler is used for compiling and linking the program.
 2.Use command "make all" to build. The program will output
 an object file named "find"
 
-3.To run the program write "./find <arguments>"
+3.To run the program write "./find *arguments*"
 
 ## Arguments that the program takes
 
