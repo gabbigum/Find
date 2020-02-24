@@ -14,7 +14,7 @@ GCC compiler is used for compiling and linking the program.
 2.Use command "make all" to build. The program will output
 an object file named "find"
 
-3.To run the program write "./find <args>"
+3.To run the program write "./find <arguments>"
 
 ## Arguments that the program takes
 
@@ -26,8 +26,7 @@ an object file named "find"
 		  	-r <string>   - replace all substring occurances 
 		  	-c 	      - case insensitive search  
 
-		  3. Example
-		  		./find Hello -i sentences_test.txt -c
-
-		  		./find el i- single_words_text.txt -r EL
+	3. Example
+		  ./find Hello -i sentences_test.txt -c
+		  ./find el i- single_words_text.txt -r EL
 
