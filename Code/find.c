@@ -33,7 +33,7 @@ int main(int argc, char ** argv)
 	{
 		if(strcmp(argv[i],"-r") == 0)
 		{
-			replace_str_single_word(replace, file_name); // test this
+			replace_str_single_word(str, replace); // test this
 			return 0;
 		}
 		else if(strcmp(argv[i],"-c") == 0)

@@ -20,7 +20,7 @@ void search_file(char *str, char *file_name)
 		//array to store the new word
 		char *new_word;
 		//tokenizing every string on the line
-		new_word = strtok(buffer, " ,.-!?");
+		new_word = strtok(buffer, " ,.-!?\n");
 		//comparing every token until it reaches end of line
 		while(new_word != NULL)
 		{
@@ -31,7 +31,7 @@ void search_file(char *str, char *file_name)
 				printf("%s\n", new_word);
 			}	
 
-			new_word = strtok(NULL, " ,.-!?");
+			new_word = strtok(NULL, " ,.-!?\n");
 			
 		}
 	}
@@ -55,7 +55,7 @@ void search_file_ignore_case(char *str, char *file_name)
 		char *caseless_word;
 		char *caseless_str;
 		//tokenizing every string on the line
-		new_word = strtok(buffer, " ,.-!?");
+		new_word = strtok(buffer, " ,.-!?\n");
 		//comparing every token until it reaches end of line
 		while(new_word != NULL)
 		{
@@ -72,7 +72,7 @@ void search_file_ignore_case(char *str, char *file_name)
 			}	
 
 			
-			new_word = strtok(NULL, " ,.-!?");
+			new_word = strtok(NULL, " ,.-!?\n");
 		}
 	}
 	//closing file
@@ -101,8 +101,9 @@ void replace_str_single_word(char *str_replace, char*file_name)
 			//correctly
 			char* safe_copy;
 
-			safe_copy = replaceWord(buffer, new_word, str_replace);
+			safe_copy = replace_word(new_word, str_replace);
 
+			printf("%s\n", new_word);
 			printf("%s\n", safe_copy);
 			fprintf(write_file, "%s", safe_copy);
 			
@@ -123,7 +124,7 @@ void replace_str_single_word(char *str_replace, char*file_name)
 
 }
 
-char* replace_word(char *str, char* str_replace)
+char* replace_word(char *str, char *str_replace)
 {
 	//try it with void return type because stack is faster
 	int len = strlen(str);
@@ -151,50 +152,20 @@ char* replace_word(char *str, char* str_replace)
 
 	return replaced;
 }
-void search_file_and_replace(char *str, char *str_replace, char *file_name)
-{
-	FILE *file;
-	FILE *write_file;
-	char buffer[BUFFER_SIZE];
-
-	//output.txt
-	file = fopen(file_name, "r");
-	write_file = fopen("output.txt","w");
-
-	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
-	{
-		char *new_word;
-		
-		new_word = strtok(buffer, " ,.-!?");
-
-		while(new_word != NULL)
-		{
-			if(strstr(new_word, str) != NULL)
-			{	
-				printf("%s", new_word);
-				fprintf(write_file, "%s\n", new_word);
-			}	
-
-			new_word = strtok(NULL, " ,.-!?");
-				//compare each word and move onto the next line
-		}
-	}
-	fclose(file);
-	fclose(write_file);
-}
 
 //https://stackoverflow.com/questions/23618316/undefined-reference-to-strlwr
 //source of the strlwr function
 char *strlwr(char *str)
 {
-  unsigned char *p = (unsigned char *)str;
+	  unsigned char *p = (unsigned char *)str;
 
-  while (*p) {
-     *p = tolower((unsigned char)*p);
-      p++;
-  }
+	  while (*p) 
+	  {
+	     *p = tolower((unsigned char)*p);
+	      p++;
+	  }
 
-  return str;
+	  return str;
 }
 
 //geekfor geeks
