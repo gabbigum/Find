@@ -79,7 +79,7 @@ void search_file_ignore_case(char *str, char *file_name)
 	fclose(file);
 }
 
-void replace_str_single_word(char *str_replace, char*file_name)
+void replace_str_in_file(char *str_replace, char *file_name)
 {
 	FILE *file;
 	FILE *write_file;
@@ -95,28 +95,21 @@ void replace_str_single_word(char *str_replace, char*file_name)
 		
 		//collect the index of new_word str str
 		// substring address - address of the first char 
+		
 		if(strstr(new_word, str_replace) != NULL)
 		{	
-			//maybe this line need a fix make sure it replaces the word
-			//correctly
-			char* safe_copy;
+			char *replaced = replace_str(new_word, new_word, str_replace);
 
-			safe_copy = replace_word(new_word, str_replace);
+			printf("%s %s", new_word, replaced);
+			fprintf(write_file, "%s", replaced);
 
-			printf("%s\n", new_word);
-			printf("%s\n", safe_copy);
-			fprintf(write_file, "%s", safe_copy);
-			
-
-			free(safe_copy);
-			safe_copy = 0;
+			free(replaced);
+			replaced = 0;	
 		}
 		else
 		{
 			fprintf(write_file, "%s", new_word);
 		}
-
-		
 
 	}
 	fclose(file);
@@ -124,34 +117,12 @@ void replace_str_single_word(char *str_replace, char*file_name)
 
 }
 
-char* replace_word(char *str, char *str_replace)
-{
-	//try it with void return type because stack is faster
-	int len = strlen(str);
-	char *replaced = (char*)malloc(50 * sizeof(char)); 
+//Cut off string before it reaches the replacement slot
+//concatenate the string to the concat slot
+//increment string[element + strlen(replacement)]
+//continue where you've left off 
+// 0 terminator 
 
-	for(int i = 0; i < len; i++)
-	{
-		//!!!! maybe raplace from the starting point of str str !!!!!
-		if(strstr(str, str_replace) != NULL)
-		{
-			for(int j = 0; j < strlen(str_replace); j++)
-			{
-				replaced[i] = str_replace[j];
-				i++;
-			}
-		}
-		else
-		{
-			replaced[i] = str[i];
-		}
-	}
-	
-	replaced[len-1] = '\0';
-	//replaced[len + 1] = '\n';
-
-	return replaced;
-}
 
 //https://stackoverflow.com/questions/23618316/undefined-reference-to-strlwr
 //source of the strlwr function
@@ -167,46 +138,50 @@ char *strlwr(char *str)
 
 	  return str;
 }
+//https://stackoverflow.com/questions/779875/what-is-the-function-to-replace-string-in-c?fbclid=IwAR1_XGSwl36Ag_z5kGyPvnCyUW_R_aMfuVcaTey7E78Cu98H97h9lJPZj_s
+//func from stackoverflow
+char* replace_str(char *orig, char *rep, char *with) {
+    char *result; // the return string
+    char *ins;    // the next insert point
+    char *tmp;    // varies
+    int len_rep;  // length of rep (the string to remove)
+    int len_with; // length of with (the string to replace rep with)
+    int len_front; // distance between rep and end of last rep
+    int count;    // number of replacements
 
-//geekfor geeks
-char *replaceWord(const char *s, const char *oldW, 
-                                 const char *newW) 
-{ 
-    char *result; 
-    int i, cnt = 0; 
-    int newWlen = strlen(newW); 
-    int oldWlen = strlen(oldW); 
-  
-    // Counting the number of times old word 
-    // occur in the string 
-    for (i = 0; s[i] != '\0'; i++) 
-    { 
-        if (strstr(&s[i], oldW) == &s[i]) 
-        { 
-            cnt++; 
-  
-            // Jumping to index after the old word. 
-            i += oldWlen - 1; 
-        } 
-    } 
-  
-    // Making new string of enough length 
-    result = (char *)malloc(i + cnt * (newWlen - oldWlen) + 1); 
-  
-    i = 0; 
-    while (*s) 
-    { 
-        // compare the substring with the result 
-        if (strstr(s, oldW) == s) 
-        { 
-            strcpy(&result[i], newW); 
-            i += newWlen; 
-            s += oldWlen; 
-        } 
-        else
-            result[i++] = *s++; 
-    } 
-  
-    result[i] = '\0'; 
-    return result; 
+    // sanity checks and initialization
+    if (!orig || !rep)
+        return NULL;
+    len_rep = strlen(rep);
+    if (len_rep == 0)
+        return NULL; // empty rep causes infinite loop during count
+    if (!with)
+        with = "";
+    len_with = strlen(with);
+
+    // count the number of replacements needed
+    ins = orig;
+    for (count = 0; tmp = strstr(ins, rep); ++count) {
+        ins = tmp + len_rep;
+    }
+
+    tmp = result = malloc(strlen(orig) + (len_with - len_rep) * count + 1);
+
+    if (!result)
+        return NULL;
+
+    // first time through the loop, all the variable are set correctly
+    // from here on,
+    //    tmp points to the end of the result string
+    //    ins points to the next occurrence of rep in orig
+    //    orig points to the remainder of orig after "end of rep"
+    while (count--) {
+        ins = strstr(orig, rep);
+        len_front = ins - orig;
+        tmp = strncpy(tmp, orig, len_front) + len_front;
+        tmp = strcpy(tmp, with) + len_with;
+        orig += len_front + len_rep; // move to next "end of rep"
+    }
+    strcpy(tmp, orig);
+    return result;
 }
