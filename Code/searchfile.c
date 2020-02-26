@@ -79,7 +79,7 @@ void search_file_ignore_case(char *str, char *file_name)
 	fclose(file);
 }
 
-void replace_str_single_word(char *str_replace, char *file_name)
+void replace_str_in_file(char *str_replace, char *file_name)
 {
 	FILE *file;
 	FILE *write_file;
@@ -95,12 +95,16 @@ void replace_str_single_word(char *str_replace, char *file_name)
 		
 		//collect the index of new_word str str
 		// substring address - address of the first char 
+		
 		if(strstr(new_word, str_replace) != NULL)
 		{	
 			char *replaced = replace_str(new_word, new_word, str_replace);
 
 			printf("%s %s", new_word, replaced);
-			fprintf(write_file, "%s", replaced);	
+			fprintf(write_file, "%s", replaced);
+
+			free(replaced);
+			replaced = 0;	
 		}
 		else
 		{
@@ -134,6 +138,8 @@ char *strlwr(char *str)
 
 	  return str;
 }
+//https://stackoverflow.com/questions/779875/what-is-the-function-to-replace-string-in-c?fbclid=IwAR1_XGSwl36Ag_z5kGyPvnCyUW_R_aMfuVcaTey7E78Cu98H97h9lJPZj_s
+//func from stackoverflow
 char* replace_str(char *orig, char *rep, char *with) {
     char *result; // the return string
     char *ins;    // the next insert point
