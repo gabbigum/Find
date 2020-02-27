@@ -13,3 +13,4 @@ link:
 clean:
 	rm *.o
 	rm find
+	rm output.txt

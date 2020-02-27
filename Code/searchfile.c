@@ -64,7 +64,7 @@ void search_file_ignore_case(char *str, char *file_name)
 			caseless_str = strlwr(str);
 			strcpy(caseless_word, new_word);
 			strlwr(caseless_word);
-			//problem might be working with references
+	
 			if(strstr(caseless_word, caseless_str) != NULL)
 			{
 				//printing original string with casing
@@ -79,7 +79,7 @@ void search_file_ignore_case(char *str, char *file_name)
 	fclose(file);
 }
 
-void replace_str_in_file(char *str_replace, char *file_name)
+void replace_str_in_file(char* str_to_replace, char *str_replace, char *file_name)
 {
 	FILE *file;
 	FILE *write_file;
@@ -91,52 +91,47 @@ void replace_str_in_file(char *str_replace, char *file_name)
 
 	while(fgets(buffer, BUFFER_SIZE, file) != NULL)
 	{
-		char *new_word = buffer;
+		char *new_word = buffer; // storing the buffer in new_word pointer
 		
-		//collect the index of new_word str str
-		// substring address - address of the first char 
-		
-		if(strstr(new_word, str_replace) != NULL)
+		if(strstr(new_word, str_to_replace) != NULL)
 		{	
-			char *replaced = replace_str(new_word, new_word, str_replace);
+			//creating the replaced string 
+			char *replaced = replace_str(new_word, str_to_replace, str_replace); 
 
-			printf("%s %s", new_word, replaced);
+			//printing the string to be replaced with its replaced version
+			printf("%s%s", new_word, replaced);
+			//writing to the file with the replaced version only
 			fprintf(write_file, "%s", replaced);
 
-			free(replaced);
-			replaced = 0;	
+			free(replaced); // freeing the memory which we allocated on the heap
+			replaced = 0; // setting replaced to null
 		}
 		else
 		{
+			//writing the rest of the file
 			fprintf(write_file, "%s", new_word);
 		}
 
 	}
+	//closing files
 	fclose(file);
 	fclose(write_file);
 
 }
 
-//Cut off string before it reaches the replacement slot
-//concatenate the string to the concat slot
-//increment string[element + strlen(replacement)]
-//continue where you've left off 
-// 0 terminator 
-
-
 //https://stackoverflow.com/questions/23618316/undefined-reference-to-strlwr
 //source of the strlwr function
 char *strlwr(char *str)
 {
-	  unsigned char *p = (unsigned char *)str;
+	unsigned char *p = (unsigned char *)str;
 
-	  while (*p) 
-	  {
-	     *p = tolower((unsigned char)*p);
-	      p++;
-	  }
+	while (*p) 
+	{
+	   *p = tolower((unsigned char)*p);
+	    p++;
+	}
 
-	  return str;
+	return str;
 }
 //https://stackoverflow.com/questions/779875/what-is-the-function-to-replace-string-in-c?fbclid=IwAR1_XGSwl36Ag_z5kGyPvnCyUW_R_aMfuVcaTey7E78Cu98H97h9lJPZj_s
 //func from stackoverflow
